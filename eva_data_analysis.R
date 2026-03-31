@@ -1,3 +1,7 @@
+BreanneSteffan
+2026-03-31
+
+
 # https://data.nasa.gov/resource/eva.json (with modifications)
 input_file = 'eva-data.json'
 output_file = 'eva-data.csv'
@@ -6,7 +10,7 @@ graph_file = 'cumulative_eva_graph.png'
 
 library(jsonlite)
 library(lubridate)
-library(tidyverse)
+library(tidyverse)#needed to switch from base plotting to ggplot2
 
 j_l <- read_json(input_file)
 data=as.data.frame(j_l[[1]])
@@ -31,12 +35,12 @@ for (i in rownames(data)){
   # and this bit
   # w.writerow(data[j].values())
   if (!is.na(data[j,]$duration)){
-    duration_str=data[j,]$duration
+    duration_str=data[j,]$duration #duration_str was changed to represent string form of duration
     if(duration_str == ''){
       #do nothing
     }else{
-      duration_dt=as.POSIXlt(duration_str,format='%H:%M')
-      duration_hours <- as.numeric(as.difftime(hour(duration_dt), units = 'hours')+as.difftime(minute(duration_dt), units='mins')+as.difftime(second(duration_dt), units='secs'))/(60*60)
+      duration_dt=as.POSIXlt(duration_str,format='%H:%M') #duration_dt is a datetime object parsed from string
+      duration_hours <- as.numeric(as.difftime(hour(duration_dt), units = 'hours')+as.difftime(minute(duration_dt), units='mins')+as.difftime(second(duration_dt), units='secs'))/(60*60) #duration_hours converts duration to decimal hours
       print(duration_dt,duration_hours)
       time <- c(time, duration_hours)
       if(!is.na(data[j,]$date)){
@@ -62,9 +66,9 @@ df <- data.frame(
 
 date <- df$date
 time <- df$time
-cumulative_time <- duration_dt[2:length(duration_dt)]
+cumulative_time <- duration_dt[2:length(duration_dt)]#needed to define for the following plot
 
-p <- ggplot(df, aes(x = date, y = cumulative_time)) +  
+cumulative_spacetime_plot <- ggplot(df, aes(x = date, y = cumulative_time)) +  
   geom_point() +  
   geom_line() +  
   labs(    x = "Year",    y = "Total time spent in space to date (hours)"  ) + 
