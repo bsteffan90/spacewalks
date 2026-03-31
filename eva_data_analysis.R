@@ -10,8 +10,12 @@ graph_file = 'cumulative_eva_graph.png'
 
 library(jsonlite)
 library(lubridate)
-library(tidyverse)#needed to switch from base plotting to ggplot2
+library(tidyverse) #needed to switch from base plotting to ggplot2
 
+eva_tbl<- jsonlite::fromJSON(input_file) |>
+  as_tibble()
+
+# reading the data in json file into human code
 j_l <- read_json(input_file)
 data=as.data.frame(j_l[[1]])
 
