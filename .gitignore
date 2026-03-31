@@ -2,3 +2,5 @@ gitignore
 .Rhistory
 .Rproj.user/
 renv/
+*.pdf
+*.png
