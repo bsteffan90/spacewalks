@@ -5,6 +5,7 @@ g_file = 'cumulative_eva_graph.png'
 fieldnames <- c("EVA #", "Country", "Crew    ", "Vehicle", "Date", "Duration", "Purpose")
 
 library(jsonlite)
+library(lubridate)
 
 j_l <- read_json(data_f_file)
 data=as.data.frame(j_l[[1]])
@@ -21,7 +22,6 @@ write.csv(data_t_file)
 
 
 time <- c()
-library(lubridate)
 date = Date()
 
 
