@@ -6,6 +6,7 @@ graph_file = 'cumulative_eva_graph.png'
 
 library(jsonlite)
 library(lubridate)
+library(tidyverse)
 
 j_l <- read_json(input_file)
 data=as.data.frame(j_l[[1]])
