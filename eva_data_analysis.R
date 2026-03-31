@@ -62,13 +62,12 @@ df <- data.frame(
 
 date <- df$date
 time <- df$time
+cumulative_time <- duration_dt[2:length(duration_dt)]
 
-
-png(graph_file)
-plot(date,duration_dt[2:length(duration_dt)],
-     xlab = 'Year', ylab= 'Total time spent in space to date (hours)'
-)
-dev.off()
-plot(date,duration_dt[2:length(duration_dt)],
-     xlab = 'Year', ylab= 'Total time spent in space to date (hours)'
-)
+p <- ggplot(df, aes(x = date, y = cumulative_time)) +  
+  geom_point() +  
+  geom_line() +  
+  labs(    x = "Year",    y = "Total time spent in space to date (hours)"  ) + 
+  theme_minimal()
+ggsave(graph_file, plot = p, width = 9, height = 5, dpi = 300)
+print(p)
