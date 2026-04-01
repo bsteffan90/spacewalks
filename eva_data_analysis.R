@@ -21,7 +21,7 @@ graph_file  <- "./cumulative_eva_graph.png"
 eva_tbl <- jsonlite::fromJSON(input_file) |>
   as_tibble()
 
-#takes the table and identifies data of interest
+#convert types and drops missing duration and time
 eva_tbl <- eva_tbl |>
   mutate(
     eva  = as.numeric(eva),
@@ -31,11 +31,11 @@ eva_tbl <- eva_tbl |>
 
 readr::write_csv(eva_tbl, output_file)
 
-
+#sort by date
 eva_tbl <- eva_tbl |>
   arrange(date)
 
-#identifies/renames parameters in the table
+#identifies duration_hours and cumulative_time
 eva_tbl <- eva_tbl |>
   mutate(
     duration_hours = {
@@ -45,7 +45,7 @@ eva_tbl <- eva_tbl |>
     cumulative_time = cumsum(duration_hours) #defines cumulative time
   )
 
-#creates plot based on cumulative time vs date
+#creates plot based on cumulative time vs date and saves
 cumulative_spacetime_plot <- ggplot(eva_tbl, aes(x = date, y = cumulative_time)) +
   geom_point() +
   geom_line() +
@@ -54,6 +54,7 @@ cumulative_spacetime_plot <- ggplot(eva_tbl, aes(x = date, y = cumulative_time))
     y = "Total time spent in space to date (hours)"
   ) +
   theme_minimal()
+
 #defines graph parameters (i.e. height/width/resolution)
 ggsave(graph_file, plot = cumulative_spacetime_plot, width = 9, height = 5, dpi = 300)
 print(cumulative_spacetime_plot)
