@@ -4,3 +4,4 @@ gitignore
 renv/
 *.pdf
 *.png
+Rplots.pdf
